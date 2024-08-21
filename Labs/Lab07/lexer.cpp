@@ -1,15 +1,16 @@
 #include "lexer.h"
 #include <iostream>
 #include <sstream>
-using std::stringstream;
 using std::cin;
+using std::cout;
+using std::stringstream;
 
-// construtor 
+// construtor
 Lexer::Lexer()
 {
 	// insere palavras-reservadas na tabela de id's
-	id_table["true"]  = Id{ Tag::TRUE, "true" };
-	id_table["false"] = Id{ Tag::FALSE, "false" };
+	id_table["true"] = Id{Tag::TRUE, "true"};
+	id_table["false"] = Id{Tag::FALSE, "false"};
 
 	// inicia leitura da entrada
 	peek = cin.get();
@@ -22,7 +23,7 @@ int Lexer::Lineno()
 }
 
 // retorna tokens para o analisador sintático
-Token * Lexer::Scan()
+Token *Lexer::Scan()
 {
 	// ignora espaços em branco, tabulações e novas linhas
 	while (isspace(peek))
@@ -30,6 +31,22 @@ Token * Lexer::Scan()
 		if (peek == '\n')
 			line += 1;
 		peek = cin.get();
+	}
+
+	if (peek == '/')
+	{
+		peek = cin.get();
+		if (peek == '/')
+		{
+			while (peek != '\n')
+			{
+				peek = cin.get();
+			}
+		}
+		else if (peek == '*')
+		{
+			/* code */
+		}
 	}
 
 	// retorna números
@@ -43,24 +60,24 @@ Token * Lexer::Scan()
 			int n = peek - '0';
 			v = 10 * v + n;
 			peek = cin.get();
-		}
- 		while (isdigit(peek));
+		} while (isdigit(peek));
 
 		// retorna o token NUM
 		token.n = Num{v};
 		return &token.n;
 	}
 
+	cout << "not num!\n";
+
 	// retorna palavras-chave e identificadores
 	if (isalpha(peek))
 	{
 		stringstream ss;
-		do 
+		do
 		{
 			ss << peek;
 			peek = cin.get();
-		} 
-		while (isalpha(peek));
+		} while (isalpha(peek));
 
 		string s = ss.str();
 		auto pos = id_table.find(s);
@@ -74,7 +91,7 @@ Token * Lexer::Scan()
 		}
 
 		// se o lexema ainda não está na tabela
-		Id new_id {Tag::ID, s};
+		Id new_id{Tag::ID, s};
 		id_table[s] = new_id;
 
 		// retorna o token ID
@@ -83,7 +100,7 @@ Token * Lexer::Scan()
 	}
 
 	// operadores (e caracteres não alphanuméricos isolados)
-	Token op {peek};
+	Token op{peek};
 	peek = ' ';
 
 	// retorna o token do CHAR
