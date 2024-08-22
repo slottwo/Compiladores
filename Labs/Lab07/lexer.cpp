@@ -33,19 +33,50 @@ Token *Lexer::Scan()
 		peek = cin.get();
 	}
 
+	// ignora comentários
 	if (peek == '/')
 	{
 		peek = cin.get();
+
+		// ignora comentários assim
 		if (peek == '/')
 		{
-			while (peek != '\n')
+			while (peek != EOF)
 			{
 				peek = cin.get();
+				if (peek == '\n')
+				{
+					line++;
+					peek = cin.get();
+					break;
+				}
 			}
 		}
+
+		/* ignora comentários assim */
 		else if (peek == '*')
 		{
-			/* code */
+			while (peek != EOF)
+			{
+				peek = cin.get();
+				if (peek == '*')
+				{
+					peek = cin.get();
+					if (peek == '/')
+						break; // achou o */
+				}
+				if (peek == '\n') // 
+					line++;
+			}
+			peek = cin.get();
+
+			// ignora espaços em branco pós */
+			while (isspace(peek))
+			{
+				if (peek == '\n')
+					line += 1;
+				peek = cin.get();
+			}
 		}
 	}
 
@@ -66,8 +97,6 @@ Token *Lexer::Scan()
 		token.n = Num{v};
 		return &token.n;
 	}
-
-	cout << "not num!\n";
 
 	// retorna palavras-chave e identificadores
 	if (isalpha(peek))
