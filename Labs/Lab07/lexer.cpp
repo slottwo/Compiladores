@@ -1,4 +1,5 @@
 #include "lexer.h"
+#include "error.h"
 #include <iostream>
 #include <sstream>
 using std::cin;
@@ -65,9 +66,12 @@ Token *Lexer::Scan()
 					if (peek == '/')
 						break; // achou o */
 				}
-				if (peek == '\n') // 
+				if (peek == '\n')
 					line++;
 			}
+			if (peek == EOF)
+				throw SyntaxError{Lineno(), "\'*/\' esperado"};
+
 			peek = cin.get();
 
 			// ignora espaços em branco pós */

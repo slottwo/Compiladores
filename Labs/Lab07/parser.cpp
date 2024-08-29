@@ -29,7 +29,8 @@ void Parser::Expr()
             cout << '-';
         }
         // add -> empty
-        else return; 
+        else
+            return;
     }
 }
 
@@ -45,7 +46,7 @@ void Parser::Term()
             Match('*');
             Fact();
             cout << '*';
-        } 
+        }
         // mult -> / fact { print(/) } mult
         else if (lookahead->tag == '/')
         {
@@ -54,10 +55,10 @@ void Parser::Term()
             cout << '/';
         }
         // mult -> empty
-        else return;
+        else
+            return;
     }
 }
-
 
 void Parser::Fact()
 {
@@ -66,8 +67,8 @@ void Parser::Fact()
     {
         Match('(');
         Expr();
-        if(!Match(')'))
-            throw SyntaxError{ scanner.Lineno(), "\')\' esperado" };
+        if (!Match(')'))
+            throw SyntaxError{scanner.Lineno(), "\')\' esperado"};
     }
     // fact -> num { print(num.valor) }
     else if (lookahead->tag == Tag::NUM)
@@ -77,7 +78,7 @@ void Parser::Fact()
     }
     // fact -> id { print(id.nome) }
     else if (lookahead->tag == Tag::ID)
-    {      
+    {
         cout << '[' << lookahead->toString() << ']';
         Match(Tag::ID);
     }
@@ -85,8 +86,8 @@ void Parser::Fact()
     else
     {
         stringstream ss;
-        ss << "símbolo \'" << lookahead->toString() << "\' inválido";  
-        throw SyntaxError{ scanner.Lineno(), ss.str() };
+        ss << "símbolo \'" << lookahead->toString() << "\' inválido";
+        throw SyntaxError{scanner.Lineno(), ss.str()};
     }
 }
 
@@ -97,7 +98,7 @@ bool Parser::Match(int tag)
         lookahead = scanner.Scan();
         return true;
     }
-   
+
     return false;
 }
 
@@ -110,12 +111,12 @@ void Parser::Start()
 {
     Expr();
 
-    // como o salto de linha não gera mais um token, 
+    // como o salto de linha não gera mais um token,
     // espera-se que a expressão termine com EOF (Ctrl+D)
     if (lookahead->tag != EOF)
     {
         stringstream ss;
-        ss << "símbolo \'" << lookahead->toString() << "\' inválido";  
-        throw SyntaxError{ scanner.Lineno(), ss.str() };
+        ss << "símbolo \'" << lookahead->toString() << "\' inválido";
+        throw SyntaxError{scanner.Lineno(), ss.str()};
     }
 }
