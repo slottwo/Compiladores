@@ -4,7 +4,7 @@
     {
         bool y;
         x;
-        y;      
+        y;
     }
     x;
     y;
