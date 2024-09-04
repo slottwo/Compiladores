@@ -3,6 +3,7 @@
     char y;
     {
         bool y;
+        2;
         x;
         y;
     }

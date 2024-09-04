@@ -5,13 +5,13 @@ using std::stringstream;
 
 extern std::ifstream fin;
 
-// construtor 
+// construtor
 Lexer::Lexer()
 {
 	// insere palavras-reservadas na tabela de id's
-	id_table["int"] = Id{ Tag::TYPE, "int" };
-	id_table["char"] = Id{ Tag::TYPE, "char" };
-	id_table["bool"] = Id{ Tag::TYPE, "bool" };
+	id_table["int"] = Id{Tag::TYPE, "int"};
+	id_table["char"] = Id{Tag::TYPE, "char"};
+	id_table["bool"] = Id{Tag::TYPE, "bool"};
 
 	// inicia leitura da entrada
 	peek = fin.get();
@@ -24,7 +24,7 @@ int Lexer::Lineno()
 }
 
 // retorna tokens para o analisador sintático
-Token * Lexer::Scan()
+Token *Lexer::Scan()
 {
 	// ignora espaços em branco, tabulações e novas linhas
 	while (isspace(peek))
@@ -45,8 +45,7 @@ Token * Lexer::Scan()
 			int n = peek - '0';
 			v = 10 * v + n;
 			peek = fin.get();
-		}
- 		while (isdigit(peek));
+		} while (isdigit(peek));
 
 		// retorna o token NUM
 		token.n = Num{v};
@@ -57,12 +56,11 @@ Token * Lexer::Scan()
 	if (isalpha(peek))
 	{
 		stringstream ss;
-		do 
+		do
 		{
 			ss << peek;
 			peek = fin.get();
-		} 
-		while (isalpha(peek));
+		} while (isalpha(peek));
 
 		string s = ss.str();
 		auto pos = id_table.find(s);
@@ -76,7 +74,7 @@ Token * Lexer::Scan()
 		}
 
 		// se o lexema ainda não está na tabela
-		Id new_id {Tag::ID, s};
+		Id new_id{Tag::ID, s};
 		id_table[s] = new_id;
 
 		// retorna o token ID
@@ -85,10 +83,10 @@ Token * Lexer::Scan()
 	}
 
 	// operadores (e caracteres não alphanuméricos isolados)
-	Token op {peek};
+	Token op{peek};
 	peek = ' ';
 
-	// retorna o token 
+	// retorna o token
 	token.t = op;
 	return &token.t;
 }

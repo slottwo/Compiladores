@@ -5,9 +5,9 @@ class Parser
 {
 private:
 	Lexer scanner;
-	SymTable * symtable;
-	Token * lookahead;
-	
+	SymTable *symtable;
+	Token *lookahead;
+
 	void Program();
 	void Block();
 	void Decls();
