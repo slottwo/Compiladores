@@ -38,18 +38,21 @@ Token *Lexer::Scan()
 	// retorna números
 	if (isdigit(peek))
 	{
-		int v = 0;
+		int n, i = 0, v = 0;
 
 		do
 		{
 			// converte caractere 'n' para o dígito numérico n
-			int n = peek - '0';
+			n = peek - '0';
 			v = 10 * v + n;
 			peek = fin.get();
-			// if(peek == '.')
-			// {
-			// 	peek = fin.get();
-			// }
+			if (i)
+				i++;
+			else if (peek == '.')
+			{
+				i = 1;
+				peek = fin.get();
+			}
 		} while (isdigit(peek));
 
 		// retorna o token NUM
@@ -87,7 +90,7 @@ Token *Lexer::Scan()
 		return &token.i;
 	}
 
-	// operadores (e caracteres não alphanuméricos isolados)
+	// operadores (e caracteres não alfanuméricos isolados)
 	Token op{peek};
 	peek = ' ';
 

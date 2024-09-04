@@ -26,6 +26,14 @@ struct Num : public Token
 	virtual string toString() { stringstream ss; ss << value; return ss.str(); }
 };
 
+// struct Float : public Token
+// {
+// 	float value;
+// 	Float(): Token(Tag::FLOAT), value(0) {}
+// 	Float(float v) : Token(Tag::FLOAT), value(v) {}
+// 	virtual string toString() { stringstream ss; ss << value; return ss.str(); }
+// };
+
 struct Id : public Token
 {
 	string name;
