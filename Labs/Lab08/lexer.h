@@ -44,7 +44,7 @@ private:
 		Token t;
 		Num n;
 		Id i;
-	} 
+	}
 	token;
 	
 	int line = 1;

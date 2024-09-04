@@ -12,6 +12,7 @@ Lexer::Lexer()
 	id_table["int"] = Id{Tag::TYPE, "int"};
 	id_table["char"] = Id{Tag::TYPE, "char"};
 	id_table["bool"] = Id{Tag::TYPE, "bool"};
+	id_table["float"] = Id{Tag::TYPE, "float"};
 
 	// inicia leitura da entrada
 	peek = fin.get();
@@ -45,6 +46,10 @@ Token *Lexer::Scan()
 			int n = peek - '0';
 			v = 10 * v + n;
 			peek = fin.get();
+			// if(peek == '.')
+			// {
+			// 	peek = fin.get();
+			// }
 		} while (isdigit(peek));
 
 		// retorna o token NUM

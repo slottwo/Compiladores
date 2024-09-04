@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [ -e 'Makefile' ]; then
+    make
+else
+    mkdir -p Debug
+    cd Debug
+
+    if [ -e 'Makefile' ]; then
+        make
+    else
+        if [ -e '../CMakeLists.txt' ]; then
+            cmake -DCMAKE_BUILD_TYPE=Debug ..
+            make
+        fi
+    fi
+fi
