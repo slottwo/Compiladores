@@ -7,7 +7,7 @@ using std::string;
 
 // cada token possui uma tag (número a partir de 256)
 // a tag de caracteres individuais é seu código ASCII
-enum Tag { TYPE = 256, NUM, ID };
+enum Tag { TYPE = 256, INT, FLOAT, ID };
 
 // classes para representar tokens
 struct Token
@@ -18,21 +18,21 @@ struct Token
 	virtual string toString() { stringstream ss; ss << char(tag); return ss.str(); }
 };
 
-struct Num : public Token
+struct Int : public Token
 {
 	int value;
-	Num(): Token(Tag::NUM), value(0) {}
-	Num(int v) : Token(Tag::NUM), value(v) {}
+	Int(): Token(Tag::INT), value(0) {}
+	Int(int v) : Token(Tag::INT), value(v) {}
 	virtual string toString() { stringstream ss; ss << value; return ss.str(); }
 };
 
-// struct Float : public Token
-// {
-// 	float value;
-// 	Float(): Token(Tag::FLOAT), value(0) {}
-// 	Float(float v) : Token(Tag::FLOAT), value(v) {}
-// 	virtual string toString() { stringstream ss; ss << value; return ss.str(); }
-// };
+struct Float : public Token
+{
+	float value;
+	Float(): Token(Tag::FLOAT), value(0) {}
+	Float(float v) : Token(Tag::FLOAT), value(v) {}
+	virtual string toString() { stringstream ss; ss << value; return ss.str(); }
+};
 
 struct Id : public Token
 {
@@ -50,8 +50,9 @@ private:
 	struct
 	{
 		Token t;
-		Num n;
-		Id i;
+		Float f;
+		Int i;
+		Id id;
 	}
 	token;
 	

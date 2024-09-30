@@ -94,6 +94,8 @@ void Parser::Stmts()
             break;
         // stmt -> fact;
         case Tag::ID:
+        case Tag::INT:
+        case Tag::FLOAT:
             Fact();
             if (!Match(';'))
             {
@@ -111,8 +113,11 @@ void Parser::Stmts()
 
 void Parser::Fact()
 {
+    switch (lookahead->tag)
+    {
+
     // fact -> id
-    if (lookahead->tag == Tag::ID)
+    case Tag::ID:
     {
         // verifica tipo da variável na tabela de símbolos
         Symbol *s = symtable->Find(lookahead->toString());
@@ -124,12 +129,26 @@ void Parser::Fact()
         }
         cout << s->var << ':' << s->type << "; ";
         Match(Tag::ID);
+        break;
     }
-    else
-    {
+
+    // fact -> int
+    case Tag::INT:
+        cout << lookahead->toString() << ":int; ";
+        Match(Tag::INT);
+        break;
+
+    // fact -> float
+    case Tag::FLOAT:
+        cout << lookahead->toString() << ":float; ";
+        Match(Tag::FLOAT);
+        break;
+
+    default:
         stringstream ss;
         ss << '\'' << lookahead->toString() << "\' inválido na expressão";
         throw SyntaxError{scanner.Lineno(), ss.str()};
+        break;
     }
 }
 

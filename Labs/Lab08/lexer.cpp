@@ -55,9 +55,22 @@ Token *Lexer::Scan()
 			}
 		} while (isdigit(peek));
 
-		// retorna o token NUM
-		token.n = Num{v};
-		return &token.n;
+		if (i)
+		{
+			float vf = (float)v;
+			for (; i > 1; i--)
+			{
+				vf /= 10;
+			}
+
+			// retorna o token FLOAT
+			token.f = Float{vf};
+			return &token.f;
+		}
+
+		// retorna o token INT
+		token.i = Int{v};
+		return &token.i;
 	}
 
 	// retorna palavras-chave e identificadores
@@ -77,8 +90,8 @@ Token *Lexer::Scan()
 		if (pos != id_table.end())
 		{
 			// retorna o token associado
-			token.i = pos->second;
-			return &token.i;
+			token.id = pos->second;
+			return &token.id;
 		}
 
 		// se o lexema ainda não está na tabela
@@ -86,8 +99,8 @@ Token *Lexer::Scan()
 		id_table[s] = new_id;
 
 		// retorna o token ID
-		token.i = new_id;
-		return &token.i;
+		token.id = new_id;
+		return &token.id;
 	}
 
 	// operadores (e caracteres não alfanuméricos isolados)
