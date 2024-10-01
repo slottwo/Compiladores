@@ -1,7 +1,11 @@
 // meu programa de teste
 int main()
 {
-    int i; int j; int k; float vet[10]; bool flag;
+    int i;
+    int j;
+    int k;
+    float vet[10];
+    bool flag;
     i = 0;
     j = 9;
     k = 1;
@@ -21,6 +25,5 @@ int main()
             vet[i] = vet[i - 1] * 2.0;
             vet[j] = vet[j + 1] / 2.0;
         }
-    } 
-    while (i < j);
+    } while (i < j);
 }

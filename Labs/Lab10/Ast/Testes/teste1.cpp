@@ -1,6 +1,6 @@
-/* exemplo de programa em 
+/* exemplo de programa em
    linguagem simplificada */
-   
+
 int main()
 {
   // variáveis

@@ -65,7 +65,7 @@ Identifier::Identifier(int etype, Token *t) : Expression(NodeType::IDENTIFIER, e
 // Access
 // ------
 
-Access::Access(int etype, Token * t, Expression * i, Expression * e): Expression(NodeType::ACCESS, etype, t), id(i), expr(e) {}
+Access::Access(int etype, Token *t, Expression *i, Expression *e) : Expression(NodeType::ACCESS, etype, t), id(i), expr(e) {}
 
 // -------
 // Logical
